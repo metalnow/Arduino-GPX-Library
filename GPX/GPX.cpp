@@ -92,7 +92,7 @@ String GPX::getInfo(){
 }
 
 String GPX::getPt(String typ, String lon, String lat){
-  String localStr(_GPX_PT_HEAD);
+  String localStr = _GPX_PT_HEAD;
   localStr = localStr.replace("TYPE",typ);
   localStr += lat + "\" lon=\""; 
   localStr += lon + "\">";
@@ -116,7 +116,10 @@ String GPX::getPt(String typ, String lon, String lat){
 }
     
 String GPX::getPt(String typ, String lon, String lat, String ele){
-
+  setEle(ele);
+  String localStr;
+  localStr += getPt(typ, lon, lat)
+  return localStr;
 }
 
 //Set Methods
