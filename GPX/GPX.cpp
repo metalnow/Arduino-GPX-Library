@@ -76,26 +76,70 @@ String GPX::getTrakSegClose(){
   return String(_GPX_TRKSEG_TAIL);
 }
 
-String GPX::getInfo(){
+String GPX::getName(){
   String localStr("");
   if (_name.length() > 0){
     localStr += _GPX_NAME_HEAD;
     localStr += wrapCDATA(_name);
     localStr += _GPX_NAME_TAIL;
   }
+  return localStr;
+}
+
+String GPX::getTime(){
+  String localStr("");
+  if (_time.length() > 0){
+    localStr += _GPX_TIME_HEAD;
+    localStr += _time;
+    localStr += _GPX_TIME_TAIL;
+  }  
+  return localStr;
+}
+
+String GPX::getSpeed(){
+  String localStr("");
+  if (_speed.length() > 0){
+    localStr += _GPX_SPEED_HEAD;
+    localStr += _speed;
+    localStr += _GPX_SPEED_TAIL;
+  }  
+  return localStr;
+}
+
+String GPX::getSat(){
+  String localStr("");
+  if (_sat.length() > 0){
+    localStr += _GPX_SAT_HEAD;
+    localStr += _sat;
+    localStr += _GPX_SAT_TAIL;
+  }  
+  return localStr;
+}
+
+String GPX::getFix(){
+  String localStr("");
+  if (_fix.length() > 0){
+    localStr += _GPX_FIX_HEAD;
+    localStr += _fix;
+    localStr += _GPX_FIX_TAIL;
+  }  
+  return localStr;
+}
+
+
+String GPX::getInfo(){
+  String localStr("");
+  localStr += getName();
+  localStr += getTime();
+  localStr += getSpeed();
+  localStr += getSat();
+  localStr += getFix();
+
   if (_desc.length() > 0){
     localStr += _GPX_DESC_HEAD;
     localStr += wrapCDATA(_desc);
     localStr += _GPX_DESC_TAIL;
   }
-  return localStr;
-}
-
-String GPX::getPt(String typ, String lon, String lat){
-  String localStr(_GPX_PT_HEAD);
-  localStr.replace("TYPE",typ);
-  localStr += lat + "\" lon=\""; 
-  localStr += lon + "\">";
   if (_ele.length() > 0){
     localStr += _GPX_ELE_HEAD;
     localStr += _ele;
@@ -111,6 +155,22 @@ String GPX::getPt(String typ, String lon, String lat){
     localStr += wrapCDATA(_src);
     localStr += _GPX_SRC_TAIL;
   }
+  if (_cmt.length() > 0){
+    localStr += _GPX_CMT_HEAD;
+    localStr += wrapCDATA(_cmt);
+    localStr += _GPX_CMT_TAIL;
+  }  
+  return localStr;
+}
+
+String GPX::getPt(String typ, String lon, String lat){
+  String localStr(_GPX_PT_HEAD);
+  localStr.replace("TYPE",typ);
+  localStr += lat + "\" lon=\""; 
+  localStr += lon + "\">";
+  
+  localStr += getInfo();
+  
   String tmpLocalTail(_GPX_PT_TAIL);
   tmpLocalTail.replace("TYPE",typ);
   localStr += tmpLocalTail;
@@ -119,9 +179,22 @@ String GPX::getPt(String typ, String lon, String lat){
     
 String GPX::getPt(String typ, String lon, String lat, String ele){
   setEle(ele);
-  String localStr;
-  localStr += getPt(typ, lon, lat);
-  return localStr;
+  return getPt(typ, lon, lat);
+}
+
+void GPX::clear(){
+  _metaName = "";
+  _metaDesc = "";
+  _name = "";
+  _desc = "";
+  _ele = "";
+  _sym = "";
+  _src = "";
+  _time = "";
+  _cmt = "";
+  _speed = "";
+  _sat = "";
+  _fix = "";    
 }
 
 //Set Methods
@@ -145,6 +218,21 @@ void GPX::setSym(String sym){
 }
 void GPX::setSrc(String src){
   _src = src;
+}
+void GPX::setTime(String time){
+  _time = time;
+}
+void GPX::setCmt(String cmt){
+  _cmt = cmt;
+}
+void GPX::setSpeed(String speed){
+  _speed = speed;
+}
+void GPX::setSat(String sat){
+  _sat = sat;
+}
+void GPX::setFix(String fix){
+  _fix = fix;
 }
 
 //Private Functions
